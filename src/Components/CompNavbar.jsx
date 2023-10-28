@@ -74,7 +74,7 @@ const CompNavbar = () => {
               }}
             >
               {pages.map((page) => (
-                <Link key={page} to={`/${page}`}>
+                <Link key={page} to={page === "Login" ? "/" : `/${page}`}>
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -100,7 +100,7 @@ const CompNavbar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Link key={page} to={`/${page}`}>
+              <Link key={page} to={page === "Login" ? "/" : `/${page}`}>
                 <Button sx={{ my: 2, color: "white", display: "block" }}>
                   {page}
                 </Button>

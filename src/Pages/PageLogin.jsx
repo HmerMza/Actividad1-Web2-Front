@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 const PageLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  //aqui estara la funcion para el login
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("vamos por aqui");
   };
 
   return (
-    <Box className="mt-8 max-w-[400px] mx-auto text-center">
+    <Box className="mt-8 max-w-[405px] p-3 mx-auto text-center border shadow-md rounded-lg">
       <Box>
         <Typography variant="h4">Login</Typography>
       </Box>

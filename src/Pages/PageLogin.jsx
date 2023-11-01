@@ -3,19 +3,19 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const PageLogin = () => {
-  const [email, setEmail] = useState("");
+  const [username, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //aqui estara la funcion para el login
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Enviamos los datos del login al backend
-    const response = await fetch("http://localhost:3000/api/login", {
+    const response = await fetch("http://localhost:2659/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
+        username,
         password,
       }),
     });
@@ -25,12 +25,12 @@ const PageLogin = () => {
       // El login fue exitoso
       // Obtenemos el mensaje de bienvenida
       const data = await response.json();
-      alert(data.message);
+      console.log(data.token);
     } else {
       // El login no fue exitoso
       // Mostramos un mensaje de error al usuario
       const data = await response.json();
-      alert(data.message);
+      alert(data.mensaje);
     }
   };
   return (
@@ -43,9 +43,9 @@ const PageLogin = () => {
           sx={{ my: 3 }}
           fullWidth
           variant="outlined"
-          type="email"
-          label="Correo"
-          value={email}
+          type="text"
+          label="username"
+          value={username}
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
@@ -53,7 +53,7 @@ const PageLogin = () => {
           fullWidth
           type="password"
           variant="outlined"
-          label="Contraseña"
+          label="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

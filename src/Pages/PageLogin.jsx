@@ -6,11 +6,33 @@ const PageLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //aqui estara la funcion para el login
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("vamos por aqui");
-  };
+    // Enviamos los datos del login al backend
+    const response = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
+    // Verificamos que la respuesta del backend sea exitosa
+    if (response.ok) {
+      // El login fue exitoso
+      // Obtenemos el mensaje de bienvenida
+      const data = await response.json();
+      alert(data.message);
+    } else {
+      // El login no fue exitoso
+      // Mostramos un mensaje de error al usuario
+      const data = await response.json();
+      alert(data.message);
+    }
+  };
   return (
     <Box className="mt-8 max-w-[405px] p-3 mx-auto text-center border shadow-md rounded-lg">
       <Box>

@@ -1,10 +1,20 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useActiveUser, useUserContext } from "../Hooks/useUserContext";
+import { guardarToken } from "../Hooks/useToken";
 
 const PageLogin = () => {
   const [username, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  //para guardar los datos del ususario
+  const { setUser } = useContext(useUserContext);
+  //verifico si el usuario existe
+  useActiveUser();
+
+  //para redirigir cuando el usuario inicie sesion
+  const navigate = useNavigate();
   //aqui estara la funcion para el login
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +36,11 @@ const PageLogin = () => {
       // Obtenemos el mensaje de bienvenida
       const data = await response.json();
       console.log(data.token);
+      //guardo el usuario
+      setUser(data.token);
+      guardarToken(data.token);
+      //lo redirecciono al dashboard
+      navigate("/dashboard");
     } else {
       // El login no fue exitoso
       // Mostramos un mensaje de error al usuario

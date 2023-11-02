@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes";
+import UseProvider from "./Hooks/useUserContext";
 
 //los estilos de MUI
 import "@fontsource/roboto/300.css";
@@ -12,6 +13,8 @@ import "@fontsource/roboto/700.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UseProvider>
+      <RouterProvider router={router} />
+    </UseProvider>
   </React.StrictMode>
 );

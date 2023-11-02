@@ -11,8 +11,9 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import Tab from "@mui/material/Tab";
 import { Tabs, ThemeProvider, createTheme } from "@mui/material";
+import { useContext } from "react";
+import { useUserContext } from "../Hooks/useUserContext";
 
-const pages = ["Login", "Dashboard"];
 const theme = createTheme({
   palette: {
     secondary: {
@@ -37,6 +38,8 @@ const CompNavbar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const { user } = useContext(useUserContext);
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,13 +91,19 @@ const CompNavbar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page) => (
-                  <Link key={page} to={page === "Login" ? "/" : `/${page}`}>
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
+                {user ? (
+                  <Link to="/dashboard">
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">dashboard</Typography>
                     </MenuItem>
                   </Link>
-                ))}
+                ) : (
+                  <Link to="/">
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">Login</Typography>
+                    </MenuItem>
+                  </Link>
+                )}
               </Menu>
             </Box>
             <Typography
@@ -122,15 +131,16 @@ const CompNavbar = () => {
                 variant="standard"
                 aria-label="basic tabs example"
               >
-                {pages.map((page) => (
+                {user ? (
                   <Tab
-                    label={page}
-                    value={page === "Login" ? "1" : "2"}
+                    label="Dashboard"
+                    value="1"
                     component={Link}
-                    to={page === "Login" ? "/" : `/${page}`}
-                    key={page}
+                    to="/dashboard"
                   />
-                ))}
+                ) : (
+                  <Tab label="Login" value="1" component={Link} to="/" />
+                )}
               </Tabs>
             </Box>
           </Toolbar>

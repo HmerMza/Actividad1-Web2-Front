@@ -1,45 +1,56 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useActiveUser } from "../Hooks/useUserContext";
 
 const PageRegister = () => {
-  const [email, setEmail] = useState("");
+  const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  //para verificar que exista un token o usuario
+  useActiveUser();
+
+  //para redirigir al login
+
+  const navigate = useNavigate();
   //esta sera la funcion para el registrar
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
-      name,
-      email,
+      username,
       password,
     };
-    console.log(user, "registrado");
+
+    try {
+      const response = await fetch("http://localhost:2659/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      const data = await response.json();
+      console.log(data.mensaje);
+      navigate("/");
+    } catch (error) {
+      console.error("Error al registrar:", error);
+    }
   };
 
   return (
     <Box className="mt-8 max-w-[405px] p-3 mx-auto text-center border shadow-md rounded-lg">
       <Box>
-        <Typography variant="h4">Formulario Registro</Typography>
+        <Typography variant="h4">Registro</Typography>
       </Box>
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
           sx={{ my: 3 }}
           type="text"
-          label="Nombre"
-          placeholder="ej: Pepito Rodriguez"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          sx={{ mb: 3 }}
-          type="email"
-          label="Correo"
+          label="Username"
           placeholder="Ejemplo@ejemplo.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setusername(e.target.value)}
         />
         <TextField
           fullWidth
@@ -55,7 +66,7 @@ const PageRegister = () => {
           Registrar
         </Button>
         <Button fullWidth component={Link} to="/">
-          Ya tienes cuenta?
+          ¿Ya tienes cuenta?
         </Button>
       </form>
     </Box>

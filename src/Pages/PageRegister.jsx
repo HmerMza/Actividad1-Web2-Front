@@ -27,11 +27,17 @@ const PageRegister = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
-      });
 
-      const data = await response.json();
-      console.log(data.mensaje);
-      navigate("/");
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.mensaje);
+        navigate("/");
+      } else {
+        const data = await response.json();
+        alert(data.mensaje);
+      }
+      
     } catch (error) {
       console.error("Error al registrar:", error);
     }

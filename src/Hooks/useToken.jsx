@@ -30,3 +30,21 @@ export const useActiveToken = () => {
     }
   });
 };
+
+//para verificar el token en el back
+export const verificarToken = async () => {
+  const token = obtenerToken();
+
+  const response = await fetch("http://localhost:2659/api/protected", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+if (response.status === 200) {
+  console.log("token valido");
+} else {
+  console.log("el token experio");
+}
+}

@@ -35,7 +35,7 @@ const PageLogin = () => {
       // El login fue exitoso
       // Obtenemos el mensaje de bienvenida
       const data = await response.json();
-      console.log(data.token);
+      console.log(data);
       //guardo el usuario
       setUser(data.token);
       guardarToken(data.token);
